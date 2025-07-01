@@ -8,7 +8,7 @@ service: loyalty-coupon-lambda-api
 stages:
   default:
     params:
-      tableName: "users-table-${sls:stage}"
+      tableName: "coupons-table-${sls:stage}"
 
 provider:
   name: aws
@@ -25,26 +25,26 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - Fn::GetAtt: [UsersTable, Arn]
+            - Fn::GetAtt: [CouponsTable, Arn]
   environment:
-    USERS_TABLE: ${param:tableName}
+    COUPONS_TABLE: ${param:tableName}
 
 functions:
   api:
-    handler: handler.handler
+    handler: coupons.coupons
     events:
       - httpApi: "*"
 
 resources:
   Resources:
-    UsersTable:
+    CouponsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: userId
+          - AttributeName: couponId
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
+          - AttributeName: couponId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${param:tableName}
