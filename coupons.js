@@ -37,8 +37,15 @@ app.get("/coupons", async (req, res) => {
         }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Could not retrieve coupon" });
+      res.status(500).json({ error: "Could not retrieve coupon " . error});
     }
   });
 
+app.use((req, res, next) => {
+    return res.status(404).json({
+        error: "Not Found",
+    });
+});
+
+  
 exports.coupons = serverless(app);
