@@ -28,13 +28,13 @@ app.get("/loyalty-cards", async (req, res) => {
       const { Items } = await docClient.send(command);
       
       if (Items && Items.length > 0) {
-        const coupons = Items.map(item => ({
+        const loyaltyCards = Items.map(item => ({
           loyaltyCardId: item.loyaltyCardId,
           name: item.name
         }));
-        res.json({ coupons });
+        res.json({ loyaltyCards });
       } else {
-        res.json({ coupons: [] });
+        res.json({ loyaltyCards: [] });
       }
   } catch (error) {
     console.log(error);
